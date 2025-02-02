@@ -18,11 +18,24 @@ saveDataButton.addEventListener("click", () => {
     const newTask = document.createElement("li");
     newTask.classList.add("todo");
 
-    newTask.innerHTML = `
+    const taskContent = document.createElement("div");
+    taskContent.innerHTML = `
         <strong>${title}</strong><br>
         <em>${description}</em><br>
         <small>Due: ${dueDate} | Priority: ${priority}</small>
     `;
+
+    const deleteTaskButton = document.createElement("button");
+    deleteTaskButton.classList.add("delete-task");
+    deleteTaskButton.textContent = 'Delete task';
+
+    // To handle deletion of a task
+    deleteTaskButton.addEventListener("click", () => {
+        newTask.remove();
+    })
+
+    newTask.appendChild(taskContent);
+    newTask.appendChild(deleteTaskButton);
 
     const todoList = document.querySelector("#todo-list");
     todoList.appendChild(newTask);
