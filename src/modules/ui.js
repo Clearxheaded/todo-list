@@ -1,11 +1,7 @@
 let editingTask = null;
-
-export function openModal() {
-    const modal = document.querySelector("#task-modal");
-    modal.style.display = 'block';
-}
-
 const saveDataButton = document.querySelector('#save-task');
+const modalTitle = document.querySelector("#task-modal h2");
+
 saveDataButton.addEventListener("click", () => {
     const title = document.querySelector("#task-title").value;
     const description = document.querySelector("#task-description").value;
@@ -37,18 +33,14 @@ saveDataButton.addEventListener("click", () => {
         editTaskButton.textContent = "Edit Task";
 
         editTaskButton.addEventListener("click", () => {
-            const taskTitle = newTask.querySelector("strong").textContent;
-            const taskDescription = newTask.querySelector("em").textContent;
-            const taskDueDate = newTask.querySelector("small").textContent.split("|")[0].trim();
-            const taskPriority = newTask.querySelector("small").textContent.split("|")[1].trim();
+            document.querySelector("#task-title").value = title;
+            document.querySelector("#task-description").value = description;
+            document.querySelector("#task-due-date").value = dueDate;
+            document.querySelector("#task-priority").value = priority;
 
-            document.querySelector("#task-title").value = taskTitle;
-            document.querySelector("#task-description").value = taskDescription;
-            document.querySelector("#task-due-date").value = taskDueDate;
-            document.querySelector("#task-priority").value = taskPriority;
+            modalTitle.textContent = "Edit Task";
 
             editingTask = newTask;
-
             openModal();
         });
 
@@ -71,6 +63,20 @@ saveDataButton.addEventListener("click", () => {
     closeModal();
     editingTask = null;
 });
+
+export function openModal() {
+    const modal = document.querySelector("#task-modal");
+    modal.style.display = 'block';
+
+    if (!editingTask) {
+        modalTitle.textContent = "Create a New Task";
+        document.querySelector("#task-title").value = '';
+        document.querySelector("#task-description").value = '';
+        document.querySelector("#task-due-date").value = '';
+        document.querySelector("#task-priority").value = 'low';
+    }
+}
+
 
 export function closeModal() {
     const modal = document.querySelector("#task-modal");
