@@ -83,16 +83,20 @@ export function closeModal() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    const projectList = document.getElementById('project-list');
-    const createNewProjectButton = document.getElementById('create-new-project');
-    const projectModal = document.getElementById('project-modal');
-    const closeProjectModalButton = document.getElementById('close-project-modal');
-    const saveProjectButton = document.getElementById('save-project');
-    const projectNameInput = document.getElementById('project-name');
+    const projectList = document.querySelector('#project-list');
+    const createNewProjectButton = document.querySelector('#create-new-project');
+    const projectModal = document.querySelector('#project-modal');
+    const closeProjectModalButton = document.querySelector('#close-project-modal');
+    const saveProjectButton = document.querySelector('#save-project');
+    const projectNameInput = document.querySelector('#project-name');
+
+    let editingProject = null;
 
     createNewProjectButton.addEventListener('click', () => {
         projectModal.style.display = 'block';
         projectNameInput.value = '';
+        saveProjectButton.textContent = 'Save Project';
+        editingProject = null;
     });
 
     closeProjectModalButton.addEventListener('click', () => {
@@ -104,25 +108,25 @@ document.addEventListener('DOMContentLoaded', () => {
         if (projectName !== '') {
             const newProject = document.createElement('li');
             newProject.classList.add('project');
-
-            const projectContent = document.createElement("span");
-            projectContent.textContent = projectName;
-            newProject.appendChild(projectContent);
-
-            const deleteButton = document.createElement('button');
-            deleteButton.classList.add('delete-project');
-            deleteButton.textContent = 'Delete';
-            deleteButton.addEventListener('click', () => deleteProject(newProject));
-
-            newProject.appendChild(deleteButton);
-
+            newProject.textContent = projectName;
+            newProject.appendChild(createDeleteButton());
             projectList.appendChild(newProject);
 
             projectModal.style.display = 'none';
         }
     });
 
-    function deleteProject(project) {
+    function createDeleteButton() {
+        const deleteButton = document.createElement('button');
+        deleteButton.classList.add('delete-project');
+        deleteButton.textContent = 'Delete';
+        deleteButton.addEventListener('click', () => deleteProject(deleteButton));
+
+        return deleteButton;
+    }
+
+    function deleteProject(deleteButton) {
+        const project = deleteButton.closest('.project');
         project.remove();
     }
 });

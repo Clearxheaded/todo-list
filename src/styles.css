@@ -1,3 +1,251 @@
 .modal {
     display: none;
 }
+
+:root {
+    --primary-color: #4a90e2;
+    --secondary-color: #67a6e6;
+    --background-color: #ffffff;
+    --surface-color: #f5f7fa;
+    --text-color: #333333;
+    --border-color: #e1e4e8;
+    --success-color: #28a745;
+    --danger-color: #dc3545;
+    --shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    --modal-overlay: rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="dark"] {
+    --primary-color: #66b2ff;
+    --secondary-color: #89c4ff;
+    --background-color: #1a1a1a;
+    --surface-color: #2d2d2d;
+    --text-color: #ffffff;
+    --border-color: #404040;
+    --shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--background-color);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--shadow);
+}
+
+main {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    gap: 2rem;
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+aside {
+    background-color: var(--surface-color);
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+}
+
+button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+button:hover {
+    background-color: var(--secondary-color);
+}
+
+#dark-mode-toggle {
+    background-color: transparent;
+    border: 2px solid white;
+}
+
+#project-list,
+#todo-list {
+    list-style: none;
+    margin: 1rem 0;
+}
+
+.project,
+.todo {
+    background-color: var(--surface-color);
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: transform 0.2s;
+}
+
+.project:hover,
+.todo:hover {
+    transform: translateX(5px);
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--modal-overlay);
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: var(--background-color);
+    padding: 2rem;
+    border-radius: 8px;
+    max-width: 500px;
+    width: 90%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: var(--shadow);
+}
+
+label {
+    display: block;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-color);
+}
+
+input,
+textarea,
+select {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background-color: var(--surface-color);
+    color: var(--text-color);
+}
+
+textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.delete-project,
+.delete-task {
+    background-color: var(--danger-color);
+}
+
+.edit-task {
+    background-color: var(--success-color);
+    margin-right: 0.5rem;
+}
+
+footer {
+    text-align: center;
+    padding: 2rem;
+    background-color: var(--surface-color);
+    margin-top: 2rem;
+}
+
+@media (max-width: 768px) {
+    main {
+        grid-template-columns: 1fr;
+    }
+
+    .modal-content {
+        width: 95%;
+        padding: 1rem;
+    }
+
+    header {
+        padding: 1rem;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.modal-content {
+    animation: fadeIn 0.3s ease-out;
+}
+
+.todo,
+.project {
+    animation: fadeIn 0.5s ease-out;
+}
+
+.task-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    flex: 1;
+}
+
+.task-details {
+    flex: 1;
+}
+
+.task-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.task-checkbox {
+    margin-top: 0.25rem;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.completed {
+    opacity: 0.7;
+}
+
+.completed .task-details {
+    text-decoration: line-through;
+    color: var(--text-color-muted);
+}
+
+.todo {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+}
