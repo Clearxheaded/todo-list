@@ -17,9 +17,6 @@
         <aside>
             <h2>Projects</h2>
             <ul id="project-list">
-                <li class="project" data-id="1">Work</li>
-                <li class="project" data-id="2">Personal</li>
-                <li class="project" data-id="3">Shopping</li>
             </ul>
             <button id="create-new-project">New Project</button>
         </aside>
@@ -33,7 +30,6 @@
             <button id="create-new-task">New Task</button>
         </section>
     </main>
-
 
     <footer>
         <p>&copy; 2025 My Todo App. All Rights Reserved.</p>
@@ -62,6 +58,18 @@
             <button id="close-modal">Close</button>
         </div>
     </div>
+
+    <div id="project-modal" class="modal">
+        <div class="modal-content">
+            <h2>Create a New Project</h2>
+            <label for="project-name">Project Name</label>
+            <input type="text" id="project-name" placeholder="Project name">
+
+            <button id="save-project">Save Project</button>
+            <button id="close-project-modal">Close</button>
+        </div>
+    </div>
+
 </body>
 
 </html>

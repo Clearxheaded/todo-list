@@ -77,8 +77,52 @@ export function openModal() {
     }
 }
 
-
 export function closeModal() {
     const modal = document.querySelector("#task-modal");
     modal.style.display = 'none';
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    const projectList = document.getElementById('project-list');
+    const createNewProjectButton = document.getElementById('create-new-project');
+    const projectModal = document.getElementById('project-modal');
+    const closeProjectModalButton = document.getElementById('close-project-modal');
+    const saveProjectButton = document.getElementById('save-project');
+    const projectNameInput = document.getElementById('project-name');
+
+    createNewProjectButton.addEventListener('click', () => {
+        projectModal.style.display = 'block';
+        projectNameInput.value = '';
+    });
+
+    closeProjectModalButton.addEventListener('click', () => {
+        projectModal.style.display = 'none';
+    });
+
+    saveProjectButton.addEventListener('click', () => {
+        const projectName = projectNameInput.value.trim();
+        if (projectName !== '') {
+            const newProject = document.createElement('li');
+            newProject.classList.add('project');
+
+            const projectContent = document.createElement("span");
+            projectContent.textContent = projectName;
+            newProject.appendChild(projectContent);
+
+            const deleteButton = document.createElement('button');
+            deleteButton.classList.add('delete-project');
+            deleteButton.textContent = 'Delete';
+            deleteButton.addEventListener('click', () => deleteProject(newProject));
+
+            newProject.appendChild(deleteButton);
+
+            projectList.appendChild(newProject);
+
+            projectModal.style.display = 'none';
+        }
+    });
+
+    function deleteProject(project) {
+        project.remove();
+    }
+});
