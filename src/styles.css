@@ -9,6 +9,7 @@
     --surface-color: #f5f7fa;
     --text-color: #333333;
     --border-color: #e1e4e8;
+    --icon-color: #666666;
     --success-color: #28a745;
     --danger-color: #dc3545;
     --shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -22,6 +23,7 @@
     --surface-color: #2d2d2d;
     --text-color: #ffffff;
     --border-color: #404040;
+    --icon-color: #cccccc;
     --shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
@@ -213,9 +215,9 @@ footer {
 
 .task-content {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     gap: 1rem;
-    flex: 1;
+    flex-grow: 1;
 }
 
 .task-details {
@@ -246,6 +248,65 @@ footer {
 .todo {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: center;
     gap: 1rem;
+}
+
+.edit-project {
+    background-color: var(--success-color);
+    margin-right: 0.5rem;
+}
+
+.project-name {
+    margin-right: auto;
+    padding-right: 1rem;
+}
+
+.task-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-shrink: 0;
+    margin-left: auto;
+    padding-left: 1rem;
+}
+
+.project {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    justify-content: space-between;
+}
+
+.icon-button {
+    width: 28px;
+    height: 28px;
+    padding: 4px;
+    background-color: transparent !important;
+}
+
+.icon-button svg {
+    fill: var(--icon-color);
+}
+
+.project-actions {
+    display: flex;
+    gap: 0.2rem;
+    margin-left: 0.5rem;
+    flex-shrink: 0;
+}
+
+.project .icon-button {
+    width: 14px;
+    height: 24px;
+    padding: 3px;
+}
+
+.edit-project,
+.delete-project {
+    background-color: transparent !important;
+}
+
+.icon-button:hover svg {
+    fill: var(--primary-color);
 }
