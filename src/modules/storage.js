@@ -37,7 +37,12 @@ export function saveProjects(projects) {
     saveToStorage(STORAGE_KEYS.PROJECTS, projects);
 }
 
-// Load projects
+// storage.js
 export function loadProjects() {
-    return loadFromStorage(STORAGE_KEYS.PROJECTS) || [];
+    const projects = loadFromStorage(STORAGE_KEYS.PROJECTS);
+    // Handle legacy format if needed
+    if (projects && projects[0] && projects[0].name) {
+        return projects;
+    }
+    return [];
 }

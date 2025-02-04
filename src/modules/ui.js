@@ -14,6 +14,7 @@ function createIcon(pathData, viewBox = "0 0 24 24") {
 }
 
 let editingTask = null;
+let editingProject = null; // Moved to top-level scope
 const saveDataButton = document.querySelector('#save-task');
 const modalTitle = document.querySelector("#task-modal h2");
 
@@ -28,8 +29,7 @@ function saveAllTasks() {
             completed: taskElement.classList.contains('completed'),
         };
     });
-
-    saveTasks(tasks); // Save tasks to localStorage
+    saveTasks(tasks);
 }
 
 // Helper function to save all projects to localStorage
@@ -39,11 +39,9 @@ function saveAllProjects() {
             name: projectElement.querySelector('.project-name').textContent,
         };
     });
-
-    saveProjects(projects); // Save projects to localStorage
+    saveProjects(projects);
 }
 
-// Helper function to create a task element
 function createTaskElement(task) {
     const newTask = document.createElement("li");
     newTask.classList.add("todo");
@@ -64,7 +62,7 @@ function createTaskElement(task) {
     const checkbox = taskContent.querySelector('.task-checkbox');
     checkbox.addEventListener('change', function () {
         newTask.classList.toggle('completed', this.checked);
-        saveAllTasks(); // Save tasks when checkbox is toggled
+        saveAllTasks();
     });
 
     const editTaskButton = document.createElement("button");
@@ -95,7 +93,7 @@ function createTaskElement(task) {
 
     deleteTaskButton.addEventListener("click", () => {
         newTask.remove();
-        saveAllTasks(); // Save tasks after deletion
+        saveAllTasks();
     });
 
     const taskActions = document.createElement('div');
@@ -109,7 +107,6 @@ function createTaskElement(task) {
     return newTask;
 }
 
-// Save task button click handler
 saveDataButton.addEventListener("click", () => {
     const title = document.querySelector("#task-title").value;
     const description = document.querySelector("#task-description").value;
@@ -133,41 +130,72 @@ saveDataButton.addEventListener("click", () => {
             priority,
             completed: false,
         });
-
-        const todoList = document.querySelector("#todo-list");
-        todoList.appendChild(newTask);
+        document.querySelector("#todo-list").appendChild(newTask);
     }
 
-    saveAllTasks(); // Save tasks after creating/updating
+    saveAllTasks();
     closeModal();
     editingTask = null;
 });
 
-// Load tasks and projects when the page loads
+function createProjectElement(project) {
+    const newProject = document.createElement('li');
+    newProject.classList.add('project');
+
+    const projectNameSpan = document.createElement('span');
+    projectNameSpan.classList.add('project-name');
+    projectNameSpan.textContent = project.name;
+    newProject.appendChild(projectNameSpan);
+
+    const editButton = document.createElement('button');
+    editButton.classList.add('edit-project', 'icon-button');
+    editButton.appendChild(createIcon("M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34a.9959.9959 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"));
+    editButton.setAttribute("aria-label", "Edit project");
+
+    editButton.addEventListener('click', () => {
+        document.querySelector('#project-name').value = projectNameSpan.textContent;
+        editingProject = newProject;
+        document.querySelector('#save-project').textContent = 'Update Project';
+        document.querySelector('#project-modal').style.display = 'block';
+    });
+
+    const deleteButton = document.createElement('button');
+    deleteButton.classList.add('delete-project', 'icon-button');
+    deleteButton.appendChild(createIcon("M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"));
+    deleteButton.setAttribute("aria-label", "Delete project");
+    deleteButton.addEventListener('click', () => {
+        newProject.remove();
+        saveAllProjects();
+    });
+
+    newProject.appendChild(editButton);
+    newProject.appendChild(deleteButton);
+
+    return newProject;
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+    // Load tasks
     const tasks = loadTasks();
     tasks.forEach(task => {
         const taskElement = createTaskElement(task);
         document.querySelector("#todo-list").appendChild(taskElement);
     });
 
+    // Load projects
     const projects = loadProjects();
     projects.forEach(project => {
         const projectElement = createProjectElement(project);
         document.querySelector("#project-list").appendChild(projectElement);
     });
-});
 
-// Project-related code
-document.addEventListener('DOMContentLoaded', () => {
+    // Project-related code
     const projectList = document.querySelector('#project-list');
     const createNewProjectButton = document.querySelector('#create-new-project');
     const projectModal = document.querySelector('#project-modal');
     const closeProjectModalButton = document.querySelector('#close-project-modal');
     const saveProjectButton = document.querySelector('#save-project');
     const projectNameInput = document.querySelector('#project-name');
-
-    let editingProject = null;
 
     createNewProjectButton.addEventListener('click', () => {
         projectModal.style.display = 'block';
@@ -186,53 +214,14 @@ document.addEventListener('DOMContentLoaded', () => {
             if (editingProject) {
                 const projectNameSpan = editingProject.querySelector('.project-name');
                 projectNameSpan.textContent = projectName;
-                projectModal.style.display = 'none';
-                editingProject = null;
             } else {
-                const newProject = document.createElement('li');
-                newProject.classList.add('project');
-
-                const projectNameSpan = document.createElement('span');
-                projectNameSpan.classList.add('project-name');
-                projectNameSpan.textContent = projectName;
-                newProject.appendChild(projectNameSpan);
-
-                const editButton = document.createElement('button');
-                editButton.classList.add('edit-project', 'icon-button');
-                editButton.appendChild(createIcon("M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34a.9959.9959 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"));
-                editButton.setAttribute("aria-label", "Edit project");
-
-                editButton.addEventListener('click', () => {
-                    projectNameInput.value = projectNameSpan.textContent;
-                    editingProject = newProject;
-                    saveProjectButton.textContent = 'Update Project';
-                    projectModal.style.display = 'block';
-                });
-
-                newProject.appendChild(editButton);
-                newProject.appendChild(createDeleteButton());
+                const newProject = createProjectElement({ name: projectName });
                 projectList.appendChild(newProject);
             }
-
-            saveAllProjects(); // Save projects after creating/updating
+            saveAllProjects();
             projectModal.style.display = 'none';
         }
     });
-
-    function createDeleteButton() {
-        const deleteButton = document.createElement('button');
-        deleteButton.classList.add('delete-project', 'icon-button');
-        deleteButton.appendChild(createIcon("M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"));
-        deleteButton.setAttribute("aria-label", "Delete project");
-        deleteButton.addEventListener('click', () => deleteProject(deleteButton));
-        return deleteButton;
-    }
-
-    function deleteProject(deleteButton) {
-        const project = deleteButton.closest('.project');
-        project.remove();
-        saveAllProjects(); // Save projects after deletion
-    }
 });
 
 export function openModal() {
