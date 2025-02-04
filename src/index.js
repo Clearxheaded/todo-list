@@ -1,17 +1,11 @@
-import { openModal, closeModal } from "./modules/ui.js";
+import { openModal, closeModal } from './modules/ui.js';
 import './styles.css';
 
-document.addEventListener("DOMContentLoaded", () => {
-    const newTaskButton = document.querySelector("#create-new-task");
-    const closeButton = document.querySelector("#close-modal");
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelector('#create-new-task').addEventListener('click', () => openModal('task'));
+    document.querySelector('#create-new-project').addEventListener('click', () => openModal('project'));
 
-    newTaskButton.addEventListener("click", openModal);
-    closeButton.addEventListener("click", closeModal);
-});
-
-// Toggle dark mode
-document.querySelector('#dark-mode-toggle').addEventListener('click', () => {
-    document.documentElement.setAttribute('data-theme',
-        document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'
-    );
+    document.querySelectorAll('.close-modal').forEach(btn => {
+        btn.addEventListener('click', () => closeModal(btn.closest('.modal').id.includes('task') ? 'task' : 'project'));
+    });
 });

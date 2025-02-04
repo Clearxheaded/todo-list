@@ -1,48 +1,42 @@
-// storage.js
-
-// Keys for localStorage
 const STORAGE_KEYS = {
     TASKS: 'tasks',
     PROJECTS: 'projects',
+    ACTIVE_PROJECT: 'activeProject',
+    THEME: 'theme'
 };
 
-// Save data to localStorage
-function saveToStorage(key, data) {
-    localStorage.setItem(key, JSON.stringify(data));
-}
-
-// Load data from localStorage
-function loadFromStorage(key) {
-    const data = localStorage.getItem(key);
-    return data ? JSON.parse(data) : null;
-}
-
-// Clear all data (optional, for debugging)
-function clearStorage() {
-    localStorage.clear();
-}
-
-// Save tasks
+// Tasks
 export function saveTasks(tasks) {
-    saveToStorage(STORAGE_KEYS.TASKS, tasks);
+    localStorage.setItem(STORAGE_KEYS.TASKS, JSON.stringify(tasks));
 }
 
-// Load tasks
 export function loadTasks() {
-    return loadFromStorage(STORAGE_KEYS.TASKS) || [];
+    return JSON.parse(localStorage.getItem(STORAGE_KEYS.TASKS)) || [];
 }
 
-// Save projects
+// Projects
 export function saveProjects(projects) {
-    saveToStorage(STORAGE_KEYS.PROJECTS, projects);
+    localStorage.setItem(STORAGE_KEYS.PROJECTS, JSON.stringify(projects));
 }
 
-// storage.js
 export function loadProjects() {
-    const projects = loadFromStorage(STORAGE_KEYS.PROJECTS);
-    // Handle legacy format if needed
-    if (projects && projects[0] && projects[0].name) {
-        return projects;
-    }
-    return [];
+    return JSON.parse(localStorage.getItem(STORAGE_KEYS.PROJECTS)) || [];
+}
+
+// Active Project
+export function saveActiveProject(projectName) {
+    localStorage.setItem(STORAGE_KEYS.ACTIVE_PROJECT, projectName);
+}
+
+export function loadActiveProject() {
+    return localStorage.getItem(STORAGE_KEYS.ACTIVE_PROJECT) || 'Inbox';
+}
+
+// Theme
+export function saveThemePreference(theme) {
+    localStorage.setItem(STORAGE_KEYS.THEME, theme);
+}
+
+export function loadThemePreference() {
+    return localStorage.getItem(STORAGE_KEYS.THEME) || 'light';
 }
