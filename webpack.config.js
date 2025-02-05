@@ -29,7 +29,8 @@ module.exports = {
             patterns: [
                 {
                     from: "src/assets/favicon_io",
-                    to: "assets", // Move the favicon to the "assets" folder
+                    to: "assets/favicon_io",
+                    noErrorOnMissing: true
                 },
             ],
         }),
