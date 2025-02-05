@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo App</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon_io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon_io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon_io/favicon-16x16.png">
+    <link rel="manifest" href="assets/favicon_io/site.webmanifest">
+    <link rel="icon" type="image/x-icon" href="assets/favicon_io/favicon.ico">
+<link rel="icon" href="favicon.ico"><script defer src="main.js"></script></head>
+
+<body>
+    <header>
+        <h1>My To-Do List</h1>
+        <button id="dark-mode-toggle">Dark mode</button>
+    </header>
+
+    <main>
+        <aside>
+            <h2>Projects</h2>
+            <ul id="project-list">
+            </ul>
+            <button id="create-new-project">New Project</button>
+        </aside>
+
+        <section id="todo-section">
+            <h2>My Tasks</h2>
+            <ul id="todo-list">
+            </ul>
+            <button id="create-new-task">New Task</button>
+        </section>
+    </main>
+
+    <div id="task-modal" class="modal">
+        <div class="modal-content">
+            <h2>Create a New Task</h2>
+            <label for="task-title">Title</label>
+            <input type="text" id="task-title" placeholder="Task title">
+
+            <label for="task-description">Description</label>
+            <textarea id="task-description" placeholder="Task description"></textarea>
+
+            <label for="task-due-date">Due Date</label>
+            <input type="date" id="task-due-date">
+
+            <label for="task-priority">Priority</label>
+            <select id="task-priority">
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+            </select>
+
+            <button id="save-task">Save Task</button>
+            <button id="close-modal">Close</button>
+        </div>
+    </div>
+
+    <div id="project-modal" class="modal">
+        <div class="modal-content">
+            <h2>Create a New Project</h2>
+            <label for="project-name">Project Name</label>
+            <input type="text" id="project-name" placeholder="Project name">
+
+            <button id="save-project">Save Project</button>
+            <button id="close-project-modal">Close</button>
+        </div>
+    </div>
+</body>
+
+</html>
