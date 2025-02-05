@@ -242,6 +242,9 @@ document.addEventListener('DOMContentLoaded', () => {
         saveProjects(projects);
     }
 
+    document.querySelector('#close-modal').addEventListener('click', () => closeModal('task'));
+    document.querySelector('#close-project-modal').addEventListener('click', () => closeModal('project'));
+
     const projectList = document.querySelector('#project-list');
     projects.forEach(project => {
         projectList.appendChild(createProjectElement(project));
